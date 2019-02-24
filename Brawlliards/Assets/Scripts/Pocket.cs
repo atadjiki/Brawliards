@@ -18,7 +18,7 @@ public class Pocket : MonoBehaviour
     {
 
         Debug.Log("On trigger enter");
-        if(other.gameObject.GetComponent<PoolBall>() != null)
+        if(other.gameObject.GetComponent<PoolBallController>() != null)
         {
             IEnumerator coroutine = KillBall(other.gameObject);
             StartCoroutine(coroutine);

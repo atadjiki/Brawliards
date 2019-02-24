@@ -83,6 +83,19 @@ public class GameManager : MonoBehaviour
                 Time.timeScale = 1;
             }
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SpawnBot();
+
+        }
+    }
+
+    public void SpawnBot()
+    {
+        GameObject bot = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Bot"));
+        bot.transform.position = GameObject.Find("Player").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        bot.GetComponent<Renderer>().material.color = Random.ColorHSV();
+        Debug.Log("Spawned bot " + bot.name);
     }
 
 
