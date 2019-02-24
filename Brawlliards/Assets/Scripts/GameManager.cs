@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         player = GameObject.Find("Player").GetComponent<PoolBallController>();
+        youDied = GameObject.Find("Death");
+        killCount = GameObject.Find("Kills_Value").GetComponent<Text>();
         poolBallControllers = new HashSet<PoolBallController>();
         InitGame();
 
@@ -47,13 +49,17 @@ public class GameManager : MonoBehaviour
 
     void InitGame()
     {
+        player.gameObject.SetActive(true);
+        player.gameObject.transform.position = GameObject.Find("SpawnPoint").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         playerAlive = true;
+        player.gameObject.GetComponent<PoolBallController>().ResetKills();
+        CameraManager.instance.SwitchToPlayer();
         paused = false;
         Time.timeScale = 1;
 
-        killCount = GameObject.Find("Kills_Value").GetComponent<Text>();
+
         killCount.text = player.getKills().ToString();
-        youDied = GameObject.Find("Death");
+
         youDied.SetActive(false);
         sinceLastSpawn = Time.time;
         spawnTime = Random.Range(ST_min, ST_max);
@@ -63,7 +69,8 @@ public class GameManager : MonoBehaviour
     public void PlayerDead()
     {
         playerAlive = false;
-        Time.timeScale = 0;
+        CameraManager.instance.SwitchToGame();
+        player.gameObject.SetActive(false);
         youDied.gameObject.SetActive(true);
     }
 
@@ -71,7 +78,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            InitGame();
         }
 
         if (Input.GetKeyDown(KeyCode.P) && playerAlive)

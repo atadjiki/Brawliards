@@ -45,7 +45,7 @@ public class PoolBallController : MonoBehaviour
 
         rigidBody.AddForce(rigidBody.velocity * Mathf.Clamp(attack_force * attack_charge, 0, 500));
 
-        StartCoroutine("DoSmoke");
+        StartCoroutine(EffectsManager.instance.DoSmoke(this.gameObject, 1f));
 
         attack_charge = 0;
     }
@@ -56,7 +56,7 @@ public class PoolBallController : MonoBehaviour
 
         rigidBody.AddForce(vector * Mathf.Clamp(attack_force * attack_charge, 0, 500));
 
-        StartCoroutine("DoSmoke");
+        StartCoroutine(EffectsManager.instance.DoSmoke(this.gameObject, 1f)); ;
 
         attack_charge = 0;
     }
@@ -72,6 +72,11 @@ public class PoolBallController : MonoBehaviour
         return kills;
     }
 
+    public void ResetKills()
+    {
+        kills = 0;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.GetComponent<PoolBallController>() != null)
@@ -81,15 +86,7 @@ public class PoolBallController : MonoBehaviour
 
     }
 
-    IEnumerator DoSmoke()
-    {
-        GameObject vfx = Instantiate<GameObject>(Resources.Load<GameObject>("VFX/FlamesParticleEffect"));
-        vfx.transform.position = this.gameObject.transform.position;
-        vfx.GetComponent<ParticleSystem>().Play();
-        yield return new WaitForSeconds(1.5f);
-        vfx.GetComponent<ParticleSystem>().Stop();
-        Destroy(vfx);
-    }
+
 
     public void chargeAttack(bool allow)
     {

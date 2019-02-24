@@ -30,13 +30,7 @@ public class Pocket : MonoBehaviour
         Vector3 ballpos = ball.transform.position;
         ball.SetActive(false);
 
-        GameObject vfx = Instantiate<GameObject>(Resources.Load<GameObject>("VFX/BigExplosionEffect"));
-        vfx.transform.position = ballpos;
-        vfx.transform.localScale = new Vector3(3, 3, 3);
-
-        vfx.GetComponent<ParticleSystem>().Play();
-        yield return new WaitForSeconds(death_seconds);
-       // vfx.GetComponent<ParticleSystem>().Stop();
+        StartCoroutine(EffectsManager.instance.DoExplosion(ball, death_seconds));
         
 
 
@@ -64,6 +58,6 @@ public class Pocket : MonoBehaviour
             yield return new WaitForSeconds(1);
             Destroy(ball);
         }
-        Destroy(vfx);
+      
     }
 }
