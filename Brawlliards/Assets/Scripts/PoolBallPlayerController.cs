@@ -39,7 +39,9 @@ public class PoolBallPlayerController : MonoBehaviour
 
         poolBallController.DoSphereMotion(rb, Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        poolBallController.DoForwardMotion(rb, Input.GetKeyDown(KeyCode.LeftShift));
+        poolBallController.chargeAttack(Input.GetKey(KeyCode.LeftShift));
+
+        poolBallController.DoForwardMotion(rb, Input.GetKeyUp(KeyCode.LeftShift));
 
 
     }
