@@ -5,17 +5,25 @@ using UnityEngine;
 public class PoolBallController : MonoBehaviour
 {
     private static float speed = 10f;
+    private static float maxSpeed = 50f;
     private static float attack_force = 10f;
     private static float attack_max_charge = 50f;
     private int attack_charge;
     private int kills;
     public PoolBallController lastCollidedWith;
+    private Rigidbody rb;
 
     private void Awake()
     {
         kills = 0;
         lastCollidedWith = null;
         attack_charge = 0;
+        rb = this.gameObject.GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
     }
 
     public void DoSphereMotion(Rigidbody rigidBoy, float moveHorizontal, float moveVertical)

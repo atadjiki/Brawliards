@@ -33,6 +33,8 @@ public class PoolBallAIController : MonoBehaviour
 
         }
 
+        GameManager.instance.RegisterPoolBall(poolBallController);
+
         rb = GetComponent<Rigidbody>();
 
         FindClosestBall();
@@ -102,19 +104,22 @@ public class PoolBallAIController : MonoBehaviour
 
         }
 
-        Collider col = poolCollisions[Random.Range(0, poolCollisions.Count - 1)];
-        
-        if (col.gameObject != this.gameObject)
+        if(poolCollisions.Count > 0)
+        {
+            Collider col = poolCollisions[Random.Range(0, poolCollisions.Count - 1)];
+
+            if (col.gameObject != this.gameObject)
             {
-            
+
                 if (target == null)
                 {
                     target = col.gameObject;
-                   // Debug.Log("New Target! " + col.name);
                     return;
                 }
 
             }
+        }
+
         
     }
 }

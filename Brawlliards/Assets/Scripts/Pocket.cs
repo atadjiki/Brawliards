@@ -47,20 +47,23 @@ public class Pocket : MonoBehaviour
         }
         else
         {
-            Debug.Log("Ball pocketed! " + ball.name);
+           
             if(ball.GetComponent<PoolBallController>() != null && ball.GetComponent<PoolBallController>().lastCollidedWith != null)
             {
                 ball.GetComponent<PoolBallController>().lastCollidedWith.incrementKills();
                 Debug.Log(ball.GetComponent<PoolBallController>().lastCollidedWith.name + " has " +
-                ball.GetComponent<PoolBallController>().lastCollidedWith.getKills().ToString() + "kills!");
+                ball.GetComponent<PoolBallController>().lastCollidedWith.getKills().ToString() + " kills!");
+                GameManager.instance.DeRegisterPoolBall(ball.GetComponent<PoolBallController>());
             }
             else if(ball.GetComponent<PoolBallController>() != null && ball.GetComponent<PoolBallController>().lastCollidedWith == null)
             {
                 Debug.Log(ball.name + " commited suicide!");
+                GameManager.instance.DeRegisterPoolBall(ball.GetComponent<PoolBallController>());
             }
-        }
 
+            yield return new WaitForSeconds(1);
+            Destroy(ball);
+        }
         Destroy(vfx);
-        Destroy(ball);
     }
 }

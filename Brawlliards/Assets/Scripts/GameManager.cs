@@ -10,10 +10,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     public Text killCount;
+    public Text ballCount;
     public GameObject youDied;
     private bool playerAlive;
     private bool paused;
     private PoolBallController player;
+
+    private HashSet<PoolBallController> poolBallControllers;
+    private float sinceLastSpawn;
+    private float spawnTime = 25f;
+    private float ST_min = 5;
+    private float ST_max = 30;
+    public int maxBotsAllowed = 11;
 
 
     // Start is called before the first frame update
@@ -32,6 +40,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
 
         player = GameObject.Find("Player").GetComponent<PoolBallController>();
+        poolBallControllers = new HashSet<PoolBallController>();
         InitGame();
 
     }
@@ -46,6 +55,8 @@ public class GameManager : MonoBehaviour
         killCount.text = player.getKills().ToString();
         youDied = GameObject.Find("Death");
         youDied.SetActive(false);
+        sinceLastSpawn = Time.time;
+        spawnTime = Random.Range(ST_min, ST_max);
 
     }
 
@@ -81,15 +92,55 @@ public class GameManager : MonoBehaviour
 
         }
 
-        killCount.text = player.getKills().ToString(); 
+        killCount.text = player.getKills().ToString();
+        ballCount.text = poolBallControllers.Count.ToString();
+
+        CheckForSpawns();
     }
 
     public void SpawnBot()
     {
+        if(poolBallControllers.Count >= maxBotsAllowed) { return; }
         GameObject bot = Instantiate<GameObject>(Resources.Load<GameObject>("Prefabs/Bot"));
-        bot.transform.position = GameObject.Find("Player").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+        bot.transform.position = GameObject.Find("SpawnPoint").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         bot.GetComponent<Renderer>().material.color = Random.ColorHSV();
         Debug.Log("Spawned bot " + bot.name);
+    }
+
+    public void RegisterPoolBall(PoolBallController ball)
+    {
+      //  Debug.Log("Registering ball " + ball.name);
+        poolBallControllers.Add(ball);
+    }
+
+    public int DeRegisterPoolBall(PoolBallController ball)
+    {
+        poolBallControllers.Remove(ball);
+        Debug.Log("Ball killed! " + ball.name);
+        return poolBallControllers.Count;
+    }
+
+    public void CheckForSpawns()
+    {
+        if(poolBallControllers.Count < 1)
+        {
+            SpawnBot();
+            sinceLastSpawn = Time.time;
+            spawnTime = Random.Range(10, 25);
+            Debug.Log("Next bot spawns in " + spawnTime + " seconds");
+            return;
+        }
+
+        if(Time.time - sinceLastSpawn >= spawnTime)
+        {
+
+            SpawnBot();
+            sinceLastSpawn = Time.time;
+            spawnTime = Random.Range(10, 25);
+            Debug.Log("Next bot spawns in " + spawnTime + " seconds");
+            return;
+        }
+
     }
 
 
