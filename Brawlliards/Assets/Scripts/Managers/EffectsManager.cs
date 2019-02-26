@@ -9,28 +9,21 @@ public class EffectsManager : MonoBehaviour
     public GameObject explosionFX;
     public GameObject smokeFX;
 
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        //Check if instance already exists
         if (instance == null)
-
-            //if not, set instance to this
             instance = this;
-
-        //If instance already exists and it's not this:
         else if (instance != this)
-
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
 
-        InitFX();
-
+        Init();
     }
 
-    void InitFX()
+    public void Init()
     {
-        if(smokeFX == null)
+
+
+        if (smokeFX == null)
         smokeFX = Resources.Load<GameObject>("VFX/FlamesParticleEffect");
         if(explosionFX == null)
         explosionFX = Resources.Load<GameObject>("VFX/BigExplosionEffect");

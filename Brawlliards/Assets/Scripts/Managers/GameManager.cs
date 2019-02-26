@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
 
-    public Text killCount;
-    public Text ballCount;
-    public GameObject youDied;
     private bool playerAlive;
     private bool paused;
     private PoolBallController player;
@@ -23,32 +20,23 @@ public class GameManager : MonoBehaviour
     private float ST_max = 30;
     public int maxBotsAllowed = 11;
 
-
-    // Start is called before the first frame update
-    void Awake()
+    private void Awake()
     {
-        //Check if instance already exists
         if (instance == null)
-
-            //if not, set instance to this
             instance = this;
-
-        //If instance already exists and it's not this:
         else if (instance != this)
-
-            //Then destroy this. This enforces our singleton pattern, meaning there can only ever be one instance of a GameManager.
             Destroy(gameObject);
 
-        player = GameObject.Find("Player").GetComponent<PoolBallController>();
-        youDied = GameObject.Find("Death");
-        killCount = GameObject.Find("Kills_Value").GetComponent<Text>();
-        poolBallControllers = new HashSet<PoolBallController>();
-        InitGame();
-
+        Init();
     }
 
-    void InitGame()
+    public void Init()
     {
+
+
+
+        player = GameObject.Find("Player").GetComponent<PoolBallController>();
+        poolBallControllers = new HashSet<PoolBallController>();
         player.gameObject.SetActive(true);
         player.gameObject.transform.position = GameObject.Find("SpawnPoint").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         playerAlive = true;
@@ -58,9 +46,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1;
 
 
-        killCount.text = player.getKills().ToString();
-
-        youDied.SetActive(false);
+        UIManager.instance.UpdateCounts(player.getKills(), poolBallControllers.Count);
         sinceLastSpawn = Time.time;
         spawnTime = Random.Range(ST_min, ST_max);
 
@@ -71,14 +57,14 @@ public class GameManager : MonoBehaviour
         playerAlive = false;
         CameraManager.instance.SwitchToGame();
         player.gameObject.SetActive(false);
-        youDied.gameObject.SetActive(true);
+        UIManager.instance.playerDead();
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
-            InitGame();
+            Init();
         }
 
         if (Input.GetKeyDown(KeyCode.P) && playerAlive)
@@ -99,8 +85,8 @@ public class GameManager : MonoBehaviour
 
         }
 
-        killCount.text = player.getKills().ToString();
-        ballCount.text = poolBallControllers.Count.ToString();
+        UIManager.instance.UpdateCounts(player.getKills(), poolBallControllers.Count);
+
 
         CheckForSpawns();
     }
@@ -112,6 +98,7 @@ public class GameManager : MonoBehaviour
         bot.transform.position = GameObject.Find("SpawnPoint").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
         bot.GetComponent<Renderer>().material.color = Random.ColorHSV();
         Debug.Log("Spawned bot " + bot.name);
+        UIManager.instance.SetMessage("Spawned bot " + bot.name);
     }
 
     public void RegisterPoolBall(PoolBallController ball)
@@ -124,6 +111,7 @@ public class GameManager : MonoBehaviour
     {
         poolBallControllers.Remove(ball);
         Debug.Log("Ball killed! " + ball.name);
+        UIManager.instance.SetMessage("Ball killed! " + ball.name);
         return poolBallControllers.Count;
     }
 

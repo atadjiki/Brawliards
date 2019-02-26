@@ -9,7 +9,7 @@ public class Pocket : MonoBehaviour
 
     private GameObject player;
 
-    private void Awake()
+    private void Start()
     {
         player = GameObject.Find("Player");
     }
@@ -52,6 +52,7 @@ public class Pocket : MonoBehaviour
             else if(ball.GetComponent<PoolBallController>() != null && ball.GetComponent<PoolBallController>().lastCollidedWith == null)
             {
                 Debug.Log(ball.name + " commited suicide!");
+                UIManager.instance.SetMessage(ball.name + " commited suicide!");
                 GameManager.instance.DeRegisterPoolBall(ball.GetComponent<PoolBallController>());
             }
 

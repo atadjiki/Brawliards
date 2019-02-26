@@ -13,7 +13,7 @@ public class PoolBallController : MonoBehaviour
     public PoolBallController lastCollidedWith;
     private Rigidbody rb;
 
-    private void Awake()
+    private void Start()
     {
         kills = 0;
         lastCollidedWith = null;
