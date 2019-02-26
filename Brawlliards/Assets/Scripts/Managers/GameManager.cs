@@ -27,15 +27,14 @@ public class GameManager : MonoBehaviour
         else if (instance != this)
             Destroy(gameObject);
 
+        player = GameObject.Find("Player").GetComponent<PoolBallController>();
+
         Init();
     }
 
     public void Init()
     {
 
-
-
-        player = GameObject.Find("Player").GetComponent<PoolBallController>();
         poolBallControllers = new HashSet<PoolBallController>();
         player.gameObject.SetActive(true);
         player.gameObject.transform.position = GameObject.Find("SpawnPoint").transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
@@ -47,6 +46,7 @@ public class GameManager : MonoBehaviour
 
 
         UIManager.instance.UpdateCounts(player.getKills(), poolBallControllers.Count);
+        UIManager.instance.youDied.SetActive(false);
         sinceLastSpawn = Time.time;
         spawnTime = Random.Range(ST_min, ST_max);
 

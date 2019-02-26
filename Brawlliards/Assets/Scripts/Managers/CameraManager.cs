@@ -16,6 +16,8 @@ public class CameraManager : MonoBehaviour
             instance = this;
         else if (instance != this)
             Destroy(gameObject);
+
+        Init();
     }
 
     public void Init()
