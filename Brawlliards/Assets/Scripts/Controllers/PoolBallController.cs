@@ -84,7 +84,7 @@ public class PoolBallController : MonoBehaviour
             lastCollidedWith = other.gameObject.GetComponent<PoolBallController>();
             //Do Blood Effect
             //TODO: Damage here??
-            EffectsManager.instance.DoCollide(this.gameObject, 1f);
+//            EffectsManager.instance.DoCollide(this.gameObject, 1f);
         }
 
     }
