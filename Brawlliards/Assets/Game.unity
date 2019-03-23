@@ -2142,9 +2142,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9f849160561457bb2d64ab7a53c2cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionFX: {fileID: 1000013462590818, guid: ecdd96beb7f93494880c052dfccf9dc1,
+  explosionFX: {fileID: 1000010823978654, guid: 3228a22491941734bb83ad691d17fcb9,
     type: 3}
+  explosionScale: 10
   smokeFX: {fileID: 1000010823978654, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
+  smokeScale: 2
+  collideFX: {fileID: 1000010823978654, guid: 3228a22491941734bb83ad691d17fcb9, type: 3}
+  collideScale: 0.25
 --- !u!114 &1838727098
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2422,7 +2426,7 @@ PrefabInstance:
     - target: {fileID: 2379968402826833018, guid: d9fe5ba6eea254950a389d8005d99269,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.69
+      value: 8.689999
       objectReference: {fileID: 0}
     - target: {fileID: 2379968402826833018, guid: d9fe5ba6eea254950a389d8005d99269,
         type: 3}

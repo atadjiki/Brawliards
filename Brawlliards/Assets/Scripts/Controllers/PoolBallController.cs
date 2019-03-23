@@ -45,7 +45,7 @@ public class PoolBallController : MonoBehaviour
 
         rigidBody.AddForce(rigidBody.velocity * Mathf.Clamp(attack_force * attack_charge, 0, 500));
 
-        StartCoroutine(EffectsManager.instance.DoSmoke(this.gameObject, 1f));
+        EffectsManager.instance.DoSmoke(this.gameObject, 1f);
 
         attack_charge = 0;
     }
@@ -56,7 +56,7 @@ public class PoolBallController : MonoBehaviour
 
         rigidBody.AddForce(vector * Mathf.Clamp(attack_force * attack_charge, 0, 500));
 
-        StartCoroutine(EffectsManager.instance.DoSmoke(this.gameObject, 1f)); ;
+        EffectsManager.instance.DoSmoke(this.gameObject, 1f);
 
         attack_charge = 0;
     }
@@ -82,11 +82,12 @@ public class PoolBallController : MonoBehaviour
         if(other.gameObject.GetComponent<PoolBallController>() != null)
         {
             lastCollidedWith = other.gameObject.GetComponent<PoolBallController>();
+            //Do Blood Effect
+            //TODO: Damage here??
+            EffectsManager.instance.DoCollide(this.gameObject, 1f);
         }
 
     }
-
-
 
     public void chargeAttack(bool allow)
     {

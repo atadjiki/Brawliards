@@ -30,7 +30,7 @@ public class Pocket : MonoBehaviour
         Vector3 ballpos = ball.transform.position;
         ball.SetActive(false);
 
-        StartCoroutine(EffectsManager.instance.DoExplosion(ball, death_seconds));
+        EffectsManager.instance.DoExplosion(ball, death_seconds);
         
 
 
