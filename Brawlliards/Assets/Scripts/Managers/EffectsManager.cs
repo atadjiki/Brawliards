@@ -39,7 +39,7 @@ public class EffectsManager : MonoBehaviour
 
     public void DoSmoke(GameObject target, float time)
     {
-        StartCoroutine(DoFX(smokeFX, target, time, new Vector3(smokeScale, smokeScale, smokeScale)));
+      //  StartCoroutine(DoFX(smokeFX, target, time, new Vector3(smokeScale, smokeScale, smokeScale)));
     }
 
     public void DoExplosion(GameObject target, float time)
@@ -50,7 +50,7 @@ public class EffectsManager : MonoBehaviour
 
     internal void DoCollide(GameObject target, float time)
     {
-        StartCoroutine(DoFX(collideFX, target, time, new Vector3(collideScale, collideScale, collideScale)));
+       // StartCoroutine(DoFX(collideFX, target, time, new Vector3(collideScale, collideScale, collideScale)));
     }
 
     private IEnumerator DoFX(GameObject prefab, GameObject target, float time, Vector3 scale)
